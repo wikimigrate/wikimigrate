@@ -23,7 +23,6 @@ const australiaJobClassification: JobClassification = {
     titleShort: {
         en: 'SOL',
     },
-    version: '2016',
     jobGroups: {
         sol,
         csol,

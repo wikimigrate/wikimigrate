@@ -5,7 +5,7 @@ type ClassificationSystemId = 'noc2011' | 'aus-job-class'
 
 type JobGroupDesignation = string
 
-type JobGroupId = string
+export type JobGroupId = string
 
 export interface JobGroup {
     jobGroupId: JobGroupId
@@ -39,7 +39,6 @@ export interface JobClassification {
     regionId: string
     title: MultiLangStringSet
     titleShort: MultiLangStringSet
-    version: string
     jobTypes?: Array<JobType>
     jobGroups: {
         [groupName: string]: JobGroup

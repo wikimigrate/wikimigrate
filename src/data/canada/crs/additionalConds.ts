@@ -4,7 +4,6 @@ import { ResidencePrereq } from '../../../definitions/Prerequisites/ResidencePre
 import { RightPrereq } from '../../../definitions/Prerequisites/RightPrereq'
 import SiblingPrereq from '../../../definitions/Prerequisites/SiblingPrereq'
 import { OfferPrereq } from '../../../definitions/Prerequisites/OfferPrereq'
-import { noc0, noc00, nocA, nocB } from '../jobClass/noc2016'
 import { NominationPrereq } from '../../../definitions/Prerequisites/NominationPrereq'
 import { LanguagePrereq } from '../../../definitions/Prerequisites/LanguagePrereq'
 import { duration } from '../../../definitions/auxiliary/Duration'
@@ -133,7 +132,7 @@ export const additionalPointsConditions: ScoreCondition[] = [
                 employer: {
                     region: 'canada',
                 },
-                jobGroup: noc00,
+                jobGroup: 'noc00',
             } as OfferPrereq,
         ]),
     },
@@ -146,21 +145,21 @@ export const additionalPointsConditions: ScoreCondition[] = [
                 employer: {
                     region: 'canada',
                 },
-                jobGroup: noc0,
+                jobGroup: 'noc0',
             } as OfferPrereq,
             {
                 prereqId: 'offer',
                 employer: {
                     region: 'canada',
                 },
-                jobGroup: nocA,
+                jobGroup: 'nocA',
             } as OfferPrereq,
             {
                 prereqId: 'offer',
                 employer: {
                     region: 'canada',
                 },
-                jobGroup: nocB,
+                jobGroup: 'nocB',
             } as OfferPrereq,
         ]),
     },
