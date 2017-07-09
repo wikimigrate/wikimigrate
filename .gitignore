@@ -4,3 +4,4 @@
 node_modules
 .built
 download
+*.download.json
