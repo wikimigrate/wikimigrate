@@ -69,7 +69,7 @@ const EducationBox = (props: { prereq: EducationPrereq, lang: LangId }) => {
             educationStageModifier = text(arithmeticComparisonOperatorProfiles[stage[0]].description.post)
         }
         else {
-            educationStage = 'any level'
+            educationStage = 'any depth'
             educationStageModifier = ''
         }
 
