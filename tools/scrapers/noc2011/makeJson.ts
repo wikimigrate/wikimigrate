@@ -2,7 +2,7 @@ import * as fs from 'fs'
 import * as cheerio from 'cheerio'
 import * as glob from 'glob'
 import { JobGroup } from '../../../src/definitions/auxiliary/JobClassification'
-import { MultiLangStringSet } from '../../../src/definitions/auxiliary/MultiLang'
+import { LangId, MultiLangStringSet } from '../../../src/definitions/auxiliary/MultiLang'
 
 const prefix = 'noc2011'
 
@@ -115,6 +115,12 @@ function parseIndex($: CheerioStatic): JobGroup[] {
     return jobGroups
 }
 
+function makeMultiLang(str: string, lang: LangId = 'en'): MultiLangStringSet {
+    return {
+        [lang]: str
+    }
+}
+
 function parseSubGroups($: CheerioStatic): JobGroup[] {
     const jobGroups: JobGroup[] = []
     const titleText = $('h1').text()
@@ -139,12 +145,12 @@ function parseSubGroups($: CheerioStatic): JobGroup[] {
         ],
         url: undefined,
         details: {
-            description: leadStatement,
-            exampleTitles,
+            description: makeMultiLang(leadStatement),
+            exampleTitles: exampleTitles.map(s => makeMultiLang(s)),
             exclusions,
-            duties,
-            requirements,
-            additionalInformation,
+            duties: duties.map(s => makeMultiLang(s)),
+            requirements: requirements.map(s => makeMultiLang(s)),
+            additionalInformation: additionalInformation.map(s => makeMultiLang(s)),
         }
     }))
     return jobGroups

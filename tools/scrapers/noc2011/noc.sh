@@ -6,6 +6,6 @@ wget -r 'http://noc.esdc.gc.ca/English/NOC/QuickSearch.aspx?ver=11&val65=*' \
     --directory-prefix=./download \
     --cut-dirs=100
 
-ts-node canadaNoc.ts
+ts-node makeJson.ts
 
 cp download/result.json ../../../src/data/canada/jobClass/noc2011.download.json
