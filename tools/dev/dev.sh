@@ -1,9 +1,10 @@
 root=$(pwd)
+BUILD_ROOT="build"
 
-find ".built" -type f -delete
-mkdir -p .built/web
-mkdir -p .built/server
-mkdir -p .built/ssr
+find ${BUILD_ROOT} -type f -delete
+mkdir -p ${BUILD_ROOT}/web
+mkdir -p ${BUILD_ROOT}/server
+mkdir -p ${BUILD_ROOT}/ssr
 
 # Web contents
 if [ $1 == "ssr" ]
@@ -12,7 +13,7 @@ then
     node_modules/.bin/webpack --config ./webpack.config.js --watch &
     cd ${root}
 
-    cd .built/web
+    cd ${BUILD_ROOT}/web
     python -m http.server 8080 &
     cd ${root}
 else
@@ -47,18 +48,33 @@ tsc --watch &
 cd ${root}
 
 # Backend Scripts
-cp src/server/pm2.config.js .built/
-rsync -a src/server/node_modules .built/server
-cd .built/
+cp src/server/pm2.config.js ${BUILD_ROOT}/
+cp src/data/canada/jobClass/noc2011.download.json ${BUILD_ROOT}/server/server/data
+rsync -a src/server/node_modules ${BUILD_ROOT}/server
+cd ${BUILD_ROOT}
 
 echo "Waiting for backend scripts to be built..."
-while [ ! -f "./ssr/render.bundle.js" ] || [ ! -f "./server/server/chat.js" ]
-do
-    sleep 0.5
-done
+if [ $1 == "ssr" ]
+then
+    while [ ! -f "./ssr/render.bundle.js" ] || [ ! -f "./server/server/chat.js" ] || [ ! -f "./server/server/job.js" ]
+    do
+        sleep 0.5
+        echo "waiting..."
+    done
+else
+    while [ ! -f "./server/server/chat.js" ] || [ ! -f "./server/server/job.js" ]
+    do
 
+        sleep 0.5
+        echo "waiting..."
+    done
+fi
+
+
+echo "Starting PM2"
 pm2 start pm2.config.js
 pm2 logs
+echo "YYY"
 
 # Kill background processes on exit
 kill $(jobs -p | awk '{ print $3 }')

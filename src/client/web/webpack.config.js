@@ -32,7 +32,7 @@ module.exports = {
     },
 
     output: {
-        path:       path.resolve(__dirname, '../../../.built/web'),
+        path:       path.resolve(__dirname, '../../../build/web'),
         filename:   isProd ? '[name].[chunkhash].js' : '[name].js',
         publicPath: '/',
     },

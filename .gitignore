@@ -2,6 +2,6 @@
 .vscode
 .DS_store
 node_modules
-.built
 download
 *.download.json
+build

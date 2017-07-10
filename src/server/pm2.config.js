@@ -7,6 +7,12 @@ module.exports = {
             watch:  ['server'],
         },
         {
+            name:   'job',
+            cwd:    './server/server',
+            script: 'server/server/job.js',
+            watch: true
+        },
+        {
             name:   'render.bundle',
             cwd:    './ssr',
             script: 'ssr/render.bundle.js',
