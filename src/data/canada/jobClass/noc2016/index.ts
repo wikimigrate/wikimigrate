@@ -13,7 +13,6 @@ export const noc2016: JobClassification = {
     },
     jobGroups: {
     },
-    jobTypes: [],
     reference: {
         url: 'http://noc.esdc.gc.ca/English/NOC/OccupationIndex.aspx?ver=16',
     },

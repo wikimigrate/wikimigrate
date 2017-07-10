@@ -29,17 +29,11 @@ export function isJobGroup(input: any): boolean {
     return !!(input && input.jobGroupId)
 }
 
-export interface JobType {
-    jobGroup: Array<JobGroup>
-    description: MultiLangStringSet
-}
-
 export interface JobClassification {
     classificationSystemId: ClassificationSystemId
     regionId: string
     title: MultiLangStringSet
     titleShort: MultiLangStringSet
-    jobTypes?: Array<JobType>
     jobGroups: {
         [groupName: string]: JobGroup
     }
