@@ -18,7 +18,7 @@ import { duration } from '../../../../definitions/auxiliary/Duration'
 import { data } from '../../../../data'
 import { specifierSharedStyles } from './specifierSharedStyles'
 import { activeRegionOptions } from '../../../data'
-import DropdownGroup from './DropdownGroup'
+import DropdownGroup from './InputGroup'
 
 const durationYearOptions: number[] = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
 

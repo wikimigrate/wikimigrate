@@ -9,7 +9,7 @@ import languageTestProfiles from '../../../../data/common/languageTestProfiles'
 import { specifierSharedStyles } from './specifierSharedStyles'
 import IconButton from './IconButton'
 import range from '../../../utils/range'
-import DropdownGroup from './DropdownGroup'
+import DropdownGroup from './InputGroup'
 import languageTestItemNames from '../../../utils/LanguageTestItemNames'
 import { text } from '../../../utils/text'
 
