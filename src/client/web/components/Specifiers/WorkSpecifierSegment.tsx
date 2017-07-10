@@ -48,7 +48,7 @@ const WorkSpecifierSegment = (props: WorkExperienceSpecifierBodyProps) => (
         <InputGroup
             title={text(texts.duration)}
             value={props.work.duration.value}
-            onChange={event => props.workDurationChange(
+            onAction={event => props.workDurationChange(
                 props.index,
                 duration(Number(event.target.value), 'year')
             )}
@@ -67,7 +67,7 @@ const WorkSpecifierSegment = (props: WorkExperienceSpecifierBodyProps) => (
         <InputGroup
             title={text(texts.region)}
             value={props.work.region}
-            onChange={event => props.workRegionChange(
+            onAction={event => props.workRegionChange(
                 props.index,
                 event.target.value as RegionId
             )}
@@ -94,10 +94,7 @@ const WorkSpecifierSegment = (props: WorkExperienceSpecifierBodyProps) => (
         <InputGroup
             title={text(texts.nature)}
             value={props.work.region}
-            onChange={event => props.workRegionChange(
-                props.index,
-                event.target.value as RegionId
-            )}
+            onAction={props.workNatureButtonClick}
             type='button'
         >
             Set

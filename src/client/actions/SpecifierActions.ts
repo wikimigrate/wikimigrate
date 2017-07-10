@@ -118,6 +118,10 @@ export interface SpouseExistenceChange {
     }
 }
 
+export interface WorkNatureButtonClick {
+    type: 'WORK_NATURE_BUTTON_CLICK'
+}
+
 export type SpecifierAction =
     | LanguageTestAddAction
     | LanguageTestRemoveAction
@@ -137,6 +141,7 @@ export type SpecifierAction =
     | WorkRemoveAction
     | WorkDurationChangeAction
     | WorkRegionChangeAction
+    | WorkNatureButtonClick
 
     | SpouseExistenceChange
 
@@ -304,5 +309,11 @@ export function spouseExistenceChange(
         payload: {
             hasSpouse
         }
+    }
+}
+
+export function workNatureButtonClickAction(): WorkNatureButtonClick {
+    return {
+        type: 'WORK_NATURE_BUTTON_CLICK'
     }
 }

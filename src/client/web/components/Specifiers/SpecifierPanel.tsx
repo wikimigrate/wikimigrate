@@ -32,7 +32,7 @@ import {
     languageTestScoreChangeAction,
     spouseExistenceChange,
     workAdd,
-    workDurationChangeAction,
+    workDurationChangeAction, workNatureButtonClickAction,
     workRegionChangeAction,
     workRemove,
 } from '../../../actions/SpecifierActions'
@@ -160,6 +160,7 @@ export interface WorkSpecifiersCallbacks {
     workRemove(index: number): void
     workDurationChange(index: number, duration: Duration): void
     workRegionChange(index: number, region: RegionId): void
+    workNatureButtonClick(): void
 }
 
 export interface SpouseSpecifiersCallbacks {
@@ -212,6 +213,7 @@ const SpecifierPanel = (props: OptionDisplayProps) => {
         workRemove,
         workDurationChange,
         workRegionChange,
+        workNatureButtonClick,
 
         spouseExistenceChange,
     } = props
@@ -315,6 +317,7 @@ const SpecifierPanel = (props: OptionDisplayProps) => {
                         workRemove={workRemove}
                         workDurationChange={workDurationChange}
                         workRegionChange={workRegionChange}
+                        workNatureButtonClick={workNatureButtonClick}
                     />
                 ))}
                 <IconButton
@@ -403,6 +406,7 @@ function mapDispatchToProps(dispatch: Dispatch<any>): CallbackProps {
             dispatch(workDurationChangeAction(index, duration)),
         workRegionChange: (index, region) =>
             dispatch(workRegionChangeAction(index, region)),
+        workNatureButtonClick: () => dispatch(workNatureButtonClickAction()),
 
         spouseExistenceChange: hasSpouse =>
             dispatch(spouseExistenceChange(hasSpouse)),

@@ -60,7 +60,7 @@ function EducationSpecifierSegment(props: EducationSpecifierBodyProps) {
             <DropdownGroup
                 title={text(texts.stage)}
                 value={props.edu.stage}
-                onChange={event =>
+                onAction={event =>
                     props.educationStageChange(
                         props.index,
                         event.target.value as EducationStage
@@ -77,7 +77,7 @@ function EducationSpecifierSegment(props: EducationSpecifierBodyProps) {
             <DropdownGroup
                 title={text(texts.region)}
                 value={props.edu.region}
-                onChange={event => props.educationRegionChange(
+                onAction={event => props.educationRegionChange(
                     props.index,
                     event.target.value as RegionId
                 )}
@@ -104,7 +104,7 @@ function EducationSpecifierSegment(props: EducationSpecifierBodyProps) {
             <DropdownGroup
                 title={text(texts.duration)}
                 value={props.edu.duration.value}
-                onChange={event => props.educationDurationChange(
+                onAction={event => props.educationDurationChange(
                     props.index,
                     duration(+event.target.value, 'year')
                 )}
@@ -121,7 +121,7 @@ function EducationSpecifierSegment(props: EducationSpecifierBodyProps) {
             <DropdownGroup
                 title={text(texts.graduateDate)}
                 value={props.edu.graduationDate.year}
-                onChange={event => props.educationGraduationDateChange(
+                onAction={event => props.educationGraduationDateChange(
                     props.index,
                     +event.target.value
                 )}

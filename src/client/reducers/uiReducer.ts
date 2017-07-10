@@ -16,6 +16,7 @@ export interface VisaPlannerUIState {
     query: string
     expandedFilterId: SpecifierId | null
     shouldSpecifierPanelExpand: boolean
+    jobNaturePanelExpanded: boolean
     pathwayOnDisplay: PathwayDescriptor | null
 }
 
@@ -23,6 +24,7 @@ export const INITIAL_UI_STATE: VisaPlannerUIState = {
     lang: data.app.lang,
     query: '',
     shouldSpecifierPanelExpand: false,
+    jobNaturePanelExpanded: false,
     expandedFilterId: null,
     pathwayOnDisplay: null,
 }
@@ -101,6 +103,13 @@ function uiReducer(state = INITIAL_UI_STATE, action: Action): VisaPlannerUIState
             return {
                 ...state,
                 lang: action.payload.langId
+            }
+        }
+
+        case 'WORK_NATURE_BUTTON_CLICK': {
+            return {
+                ...state,
+                jobNaturePanelExpanded: true
             }
         }
 

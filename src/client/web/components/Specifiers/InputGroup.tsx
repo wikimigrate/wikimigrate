@@ -14,13 +14,14 @@ const InputGroup: React.StatelessComponent<{
     value: any,
     standAlone?: boolean
     type?: 'button'
-    onChange(event: React.ChangeEvent<any>): void
+    onAction(event: React.ChangeEvent<any>): void
 }> = props => {
     let input
     if (props.type === 'button') {
         input = (
             <button
                 style={inputStyle}
+                onClick={props.onAction}
             >
                 {props.children}
             </button>
@@ -30,7 +31,7 @@ const InputGroup: React.StatelessComponent<{
         input = (
             <select
                 value={props.value}
-                onChange={props.onChange}
+                onChange={props.onAction}
                 style={inputStyle}
             >
                 {props.children}

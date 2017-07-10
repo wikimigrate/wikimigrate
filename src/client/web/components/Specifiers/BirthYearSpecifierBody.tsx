@@ -12,7 +12,7 @@ const BirthYearSpecifiers = (props: {
     <InputGroup
         title=''
         value={props.year}
-        onChange={event => props.onChange(Number(event.target.value))}
+        onAction={event => props.onChange(Number(event.target.value))}
     >
         {
             range(1900, thisYear).map(year => (

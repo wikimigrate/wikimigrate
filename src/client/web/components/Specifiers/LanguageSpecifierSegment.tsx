@@ -44,7 +44,7 @@ const LanguageSpecifierSegment = (props: LanguageSpecifierBodyProps) => {
             <DropdownGroup
                 title=''
                 value={profile.id}
-                onChange={event => {
+                onAction={event => {
                     props.languageTestSelect(props.index, event.target.value as LanguageTestId)
                 }}
                 standAlone={true}
@@ -67,7 +67,7 @@ const LanguageSpecifierSegment = (props: LanguageSpecifierBodyProps) => {
                         props.test.scores[item],
                         profile.itemScoreFormat[2] < 1.0
                     )}
-                    onChange={event => {
+                    onAction={event => {
                         props.languageScoreSelect(
                             props.index,
                             item,
