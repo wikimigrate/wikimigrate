@@ -25,14 +25,15 @@ import {
     educationGraduationDateChangeAction,
     educationRegionChangeAction,
     educationRemoveAction,
-    educationStageChangeAction,
+    educationStageChangeAction, fetchJobGroups,
     languageTestAddAction,
     languageTestChangeAction,
     languageTestRemoveAction,
     languageTestScoreChangeAction,
     spouseExistenceChange,
     workAdd,
-    workDurationChangeAction, workNatureButtonClickAction,
+    workDurationChangeAction,
+    workNatureButtonClickAction,
     workRegionChangeAction,
     workRemove,
 } from '../../../actions/SpecifierActions'
@@ -41,6 +42,8 @@ import { filterBarClickAction } from '../../../actions'
 import { text } from '../../../utils/text'
 import design from '../../design'
 import sys from '../../sys'
+
+import JobNatureDialog from './JobNatureDialog'
 
 const TitleBar = (props: {onClick(): void}) => (
     <a
@@ -160,7 +163,7 @@ export interface WorkSpecifiersCallbacks {
     workRemove(index: number): void
     workDurationChange(index: number, duration: Duration): void
     workRegionChange(index: number, region: RegionId): void
-    workNatureButtonClick(): void
+    workNatureButtonClick(index: number): void
 }
 
 export interface SpouseSpecifiersCallbacks {
@@ -170,6 +173,7 @@ export interface SpouseSpecifiersCallbacks {
 // Not to pass to other components
 interface TopLevelSpecifierCallbacks {
     onFilterBarClick(): void
+    fetchJobGroups(keyword: string): void
     educationAdd(): void
     languageTestAdd(): void
     workAdd(): void
@@ -185,6 +189,7 @@ interface CallbackProps extends TopLevelSpecifierCallbacks,
 
 interface ValueProps {
     shouldExpand: boolean
+    jobNatureDialogIndex: number | null
     user: Person
 }
 
@@ -214,6 +219,7 @@ const SpecifierPanel = (props: OptionDisplayProps) => {
         workDurationChange,
         workRegionChange,
         workNatureButtonClick,
+        fetchJobGroups,
 
         spouseExistenceChange,
     } = props
@@ -359,6 +365,12 @@ const SpecifierPanel = (props: OptionDisplayProps) => {
                 <BirthSpecifiers />
                 <SpouseSpecifiers />
             </div>
+            <JobNatureDialog
+                index={props.jobNatureDialogIndex}
+                onClick={content =>
+                    fetchJobGroups(content)
+                }
+            />
         </aside>
     )
 }
@@ -368,6 +380,7 @@ function mapStateToProps(state: VisaPlannerState): ValueProps {
     return {
         shouldExpand: state.ui.shouldSpecifierPanelExpand,
         user: state.user,
+        jobNatureDialogIndex: state.ui.jobNatureDialogTarget
     }
 }
 
@@ -406,7 +419,10 @@ function mapDispatchToProps(dispatch: Dispatch<any>): CallbackProps {
             dispatch(workDurationChangeAction(index, duration)),
         workRegionChange: (index, region) =>
             dispatch(workRegionChangeAction(index, region)),
-        workNatureButtonClick: () => dispatch(workNatureButtonClickAction()),
+        workNatureButtonClick: index =>
+            dispatch(workNatureButtonClickAction(index)),
+        fetchJobGroups: keyword =>
+            dispatch(fetchJobGroups(keyword)),
 
         spouseExistenceChange: hasSpouse =>
             dispatch(spouseExistenceChange(hasSpouse)),

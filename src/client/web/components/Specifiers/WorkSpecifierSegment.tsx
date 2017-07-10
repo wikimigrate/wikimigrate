@@ -94,7 +94,7 @@ const WorkSpecifierSegment = (props: WorkExperienceSpecifierBodyProps) => (
         <InputGroup
             title={text(texts.nature)}
             value={props.work.region}
-            onAction={props.workNatureButtonClick}
+            onAction={() => props.workNatureButtonClick(props.index)}
             type='button'
         >
             Set

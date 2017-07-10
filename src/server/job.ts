@@ -37,8 +37,10 @@ function search(keyword: string, jobGroups: JobGroup[]): JobGroup[] {
         text(group.title).includes(keyword) ||
         (group.details
          && group.details.exampleTitles
-         && group.details.exampleTitles.map(s => text(s)).join('')
-             .includes(keyword)
+         && group.details.exampleTitles
+                 .map(s => text(s))
+                 .join('')
+                 .includes(keyword)
         )
     )
 }
