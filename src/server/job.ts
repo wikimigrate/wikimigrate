@@ -2,6 +2,7 @@ import * as Koa from 'koa'
 import { data } from '../data'
 import { readFile } from 'fs-extra'
 import { JobClassification, JobGroup } from '../definitions/auxiliary/JobClassification'
+import { text } from '../client/utils/text'
 
 const PORT = 12000
 
@@ -27,14 +28,20 @@ async function getNoc(): Promise<JobClassification | undefined> {
 }
 
 
-export interface JobServiceQuery {
+export interface TitleSearchServerQuery {
     keyword: string
 }
 
-function search(keyword: string, jobGroups: JobGroup[]) {
-    return 'hi'
+function search(keyword: string, jobGroups: JobGroup[]): JobGroup[] {
+    return jobGroups.filter(group =>
+        text(group.title).includes(keyword) ||
+        (group.details
+         && group.details.exampleTitles
+         && group.details.exampleTitles.map(s => text(s)).join('')
+             .includes(keyword)
+        )
+    )
 }
-
 
 async function jobSearch(context: JobSearchContext, next: () => Promise<any>) {
     context.body = process.cwd()
@@ -42,8 +49,8 @@ async function jobSearch(context: JobSearchContext, next: () => Promise<any>) {
     if (!noc) {
         return next()
     }
-    const query = context.query as JobServiceQuery
-    context.body = search(query.keyword, Object.values(noc.jobGroups))
+    const query = context.query as TitleSearchServerQuery
+    context.body = JSON.stringify(search(query.keyword, Object.values(noc.jobGroups)), null, 4)
     next()
 }
 
