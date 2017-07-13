@@ -38,6 +38,9 @@ class JobNatureDialog extends React.PureComponent<Props, States> {
     }
 
     render() {
+        if (this.props.index === null) {
+            return null
+        }
         let jobGroups = this.state.selectJobGroups
         return (
             <div

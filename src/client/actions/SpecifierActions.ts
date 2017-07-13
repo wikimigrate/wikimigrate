@@ -141,6 +141,10 @@ export interface ReceiveJobGroupsAction {
     }
 }
 
+export interface WorkNatureConfirmAction {
+    type: 'JOB_NATURE_CONFIRM'
+}
+
 export type SpecifierAction =
     | LanguageTestAddAction
     | LanguageTestRemoveAction
@@ -163,6 +167,7 @@ export type SpecifierAction =
     | WorkNatureButtonClick
     | MatchJobGroupRequest
     | ReceiveJobGroupsAction
+    | WorkNatureConfirmAction
 
     | SpouseExistenceChange
 
@@ -371,3 +376,8 @@ export function spouseExistenceChange(
     }
 }
 
+export function workNatureConfirmAction(): WorkNatureConfirmAction {
+    return {
+        type: 'JOB_NATURE_CONFIRM'
+    }
+}

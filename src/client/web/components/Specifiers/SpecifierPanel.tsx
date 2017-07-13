@@ -27,6 +27,7 @@ import {
     educationRemoveAction,
     educationStageChangeAction,
     fetchJobGroups,
+    workNatureConfirmAction,
     languageTestAddAction,
     languageTestChangeAction,
     languageTestRemoveAction,
@@ -175,6 +176,7 @@ export interface SpouseSpecifiersCallbacks {
 // Not to pass to other components
 interface TopLevelSpecifierCallbacks {
     onFilterBarClick(): void
+    workNatureConfirm(): void
     fetchJobGroups(keyword: string): void
     educationAdd(): void
     languageTestAdd(): void
@@ -209,6 +211,7 @@ const SpecifierPanel = (props: OptionDisplayProps) => {
         languageTestSelect,
         languageScoreSelect,
         languageTestRemove,
+        workNatureConfirm,
 
         educationAdd,
         educationRemove,
@@ -375,7 +378,7 @@ const SpecifierPanel = (props: OptionDisplayProps) => {
                         fetchJobGroups(content)
                     }
                 }}
-                onConfirm={() => {}}
+                onConfirm={workNatureConfirm}
                 jobGroups={props.matchedJobGroups}
             />
         </aside>
@@ -431,6 +434,8 @@ function mapDispatchToProps(dispatch: Dispatch<any>): CallbackProps {
             dispatch(workNatureButtonClickAction(index)),
         fetchJobGroups: keyword =>
             dispatch(fetchJobGroups(keyword)),
+        workNatureConfirm: () =>
+            dispatch(workNatureConfirmAction()),
 
         spouseExistenceChange: hasSpouse =>
             dispatch(spouseExistenceChange(hasSpouse)),

@@ -123,6 +123,13 @@ function uiReducer(state = INITIAL_UI_STATE, action: Action): VisaPlannerUIState
             }
         }
 
+        case 'JOB_NATURE_CONFIRM': {
+            return {
+                ...state,
+                jobNatureDialogTarget: null
+            }
+        }
+
         default: {
             return state
         }
