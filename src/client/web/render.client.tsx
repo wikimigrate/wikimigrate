@@ -25,6 +25,7 @@ else {
     const shouldForceResetReduxState = location.href.indexOf('reset') > -1
     if (persistedStateString && !shouldForceResetReduxState) {
         state = JSON.parse(persistedStateString)
+        state.ui.jobGroupMatchingSearchResults = []
     }
     else {
         state = INITIAL_STATE
