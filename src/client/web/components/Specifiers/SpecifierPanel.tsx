@@ -44,6 +44,7 @@ import design from '../../design'
 import sys from '../../sys'
 
 import JobNatureDialog from './JobNatureDialog'
+import { JobGroup } from '../../../../definitions/auxiliary/JobClassification'
 
 const TitleBar = (props: {onClick(): void}) => (
     <a
@@ -191,6 +192,7 @@ interface ValueProps {
     shouldExpand: boolean
     jobNatureDialogIndex: number | null
     user: Person
+    matchedJobGroups: JobGroup[]
 }
 
 interface OptionDisplayProps extends CallbackProps, ValueProps
@@ -367,9 +369,13 @@ const SpecifierPanel = (props: OptionDisplayProps) => {
             </div>
             <JobNatureDialog
                 index={props.jobNatureDialogIndex}
-                onClick={content =>
-                    fetchJobGroups(content)
-                }
+                onSearch={content => {
+                    if (content) {
+                        fetchJobGroups(content)
+                    }
+                }}
+                onConfirm={() => {}}
+                jobGroups={props.matchedJobGroups}
             />
         </aside>
     )
@@ -380,7 +386,8 @@ function mapStateToProps(state: VisaPlannerState): ValueProps {
     return {
         shouldExpand: state.ui.shouldSpecifierPanelExpand,
         user: state.user,
-        jobNatureDialogIndex: state.ui.jobNatureDialogTarget
+        jobNatureDialogIndex: state.ui.jobNatureDialogTarget,
+        matchedJobGroups: state.ui.matchedJobGroups,
     }
 }
 

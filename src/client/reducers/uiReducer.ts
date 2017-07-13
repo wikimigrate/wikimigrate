@@ -6,6 +6,7 @@ import { Action } from '../actions'
 
 import { PATHWAY_KW_COMPOSITE, PATHWAY_KW_SIMPLE } from '../../data/constants'
 import { TransitionId } from '../../definitions/Transition'
+import { JobGroup } from '../../definitions/auxiliary/JobClassification'
 
 type SIMPLE_PATHWAY_SEGMENTS = ['', PATHWAY_KW_SIMPLE, TransitionId]
 type COMPOSITE_PATHWAY_SEGMENTS = ['', PATHWAY_KW_COMPOSITE, string /* "id1+id2+id3..." */]
@@ -18,6 +19,7 @@ export interface VisaPlannerUIState {
     shouldSpecifierPanelExpand: boolean
     jobNatureDialogTarget: number | null
     pathwayOnDisplay: PathwayDescriptor | null
+    matchedJobGroups: JobGroup[]
 }
 
 export const INITIAL_UI_STATE: VisaPlannerUIState = {
@@ -27,6 +29,7 @@ export const INITIAL_UI_STATE: VisaPlannerUIState = {
     jobNatureDialogTarget: null,
     expandedFilterId: null,
     pathwayOnDisplay: null,
+    matchedJobGroups: [],
 }
 
 const ESC_KEY_CODE = 27
@@ -110,6 +113,13 @@ function uiReducer(state = INITIAL_UI_STATE, action: Action): VisaPlannerUIState
             return {
                 ...state,
                 jobNatureDialogTarget: action.payload.index
+            }
+        }
+
+        case 'RECEIVE_JOB_GROUPS': {
+            return {
+                ...state,
+                matchedJobGroups: action.payload.jobGroups
             }
         }
 

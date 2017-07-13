@@ -162,6 +162,7 @@ export type SpecifierAction =
     | WorkRegionChangeAction
     | WorkNatureButtonClick
     | MatchJobGroupRequest
+    | ReceiveJobGroupsAction
 
     | SpouseExistenceChange
 
@@ -349,6 +350,7 @@ export function receiveJobGroups(jobGroups: JobGroup[]): ReceiveJobGroupsAction 
 }
 
 export function fetchJobGroups(keyword: string) {
+    keyword = keyword.toLowerCase()
     return function(dispatch: Dispatch<any>) {
         dispatch(matchJobGroupRequestAction(keyword))
 
