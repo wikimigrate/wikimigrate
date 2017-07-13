@@ -66,21 +66,24 @@ function uiReducer(state = INITIAL_UI_STATE, action: Action): VisaPlannerUIState
         case 'FILTER_BAR_CLICK': {
             return {
                 ...state,
-                shouldSpecifierPanelExpand: !state.shouldSpecifierPanelExpand
+                shouldSpecifierPanelExpand: !state.shouldSpecifierPanelExpand,
+                jobNatureDialogTarget: null,
             }
         }
 
         case 'TITLE_FILTER_TEXT_CLICK': {
             return {
                 ...state,
-                shouldSpecifierPanelExpand: !state.shouldSpecifierPanelExpand
+                shouldSpecifierPanelExpand: !state.shouldSpecifierPanelExpand,
+                jobNatureDialogTarget: null,
             }
         }
 
         case 'SHADE_CLICK': {
             return {
                 ...state,
-                shouldSpecifierPanelExpand: false
+                shouldSpecifierPanelExpand: false,
+                jobNatureDialogTarget: null,
             }
         }
 
