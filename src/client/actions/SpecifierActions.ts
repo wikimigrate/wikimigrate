@@ -4,7 +4,7 @@ import { RegionId } from '../../definitions/auxiliary/Region'
 import { LanguageTestId, LanguageTestItem, LanguageTestResult } from '../../definitions/auxiliary/LanguageTest'
 import { EducationStage } from '../../definitions/Qualities/EducationExperience'
 import { Dispatch } from 'redux'
-import { JobGroup } from '../../definitions/auxiliary/JobClassification'
+import { JobGroup, JobGroupId } from '../../definitions/auxiliary/JobClassification'
 
 export interface LanguageTestAddAction {
     type: 'LANGUAGE_TEST_ADD'
@@ -141,6 +141,15 @@ export interface ReceiveJobGroupsAction {
     }
 }
 
+export interface JobGroupSelectAction {
+    type: 'JOB_GROUP_SELECT',
+    payload: {
+        index: number,
+        id: JobGroupId
+        checked: boolean
+    }
+}
+
 export interface WorkNatureConfirmAction {
     type: 'JOB_NATURE_CONFIRM'
 }
@@ -167,6 +176,7 @@ export type SpecifierAction =
     | WorkNatureButtonClick
     | MatchJobGroupRequest
     | ReceiveJobGroupsAction
+    | JobGroupSelectAction
     | WorkNatureConfirmAction
 
     | SpouseExistenceChange
@@ -372,6 +382,21 @@ export function spouseExistenceChange(
         type: 'SPOUSE_EXISTENCE_CHANGE',
         payload: {
             hasSpouse
+        }
+    }
+}
+
+export function jobGroupSelectAction(
+    index: number,
+    id: JobGroupId,
+    checked: boolean
+): JobGroupSelectAction {
+    return {
+        type: 'JOB_GROUP_SELECT',
+        payload: {
+            index,
+            id,
+            checked,
         }
     }
 }

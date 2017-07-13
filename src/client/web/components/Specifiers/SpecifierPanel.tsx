@@ -37,7 +37,7 @@ import {
     workDurationChangeAction,
     workNatureButtonClickAction,
     workRegionChangeAction,
-    workRemove,
+    workRemove, jobGroupSelectAction,
 } from '../../../actions/SpecifierActions'
 import { filterBarClickAction } from '../../../actions'
 
@@ -46,7 +46,7 @@ import design from '../../design'
 import sys from '../../sys'
 
 import JobNatureDialog from './JobNatureDialog'
-import { JobGroup } from '../../../../definitions/auxiliary/JobClassification'
+import { JobGroup, JobGroupId } from '../../../../definitions/auxiliary/JobClassification'
 
 const TitleBar = (props: {onClick(): void}) => (
     <a
@@ -176,6 +176,7 @@ export interface SpouseSpecifiersCallbacks {
 // Not to pass to other components
 interface TopLevelSpecifierCallbacks {
     onFilterBarClick(): void
+    jobGroupSelect(index: number, jobGroup: JobGroupId, checked: boolean): void
     workNatureConfirm(): void
     fetchJobGroups(keyword: string): void
     educationAdd(): void
@@ -195,7 +196,7 @@ interface ValueProps {
     shouldExpand: boolean
     jobNatureDialogIndex: number | null
     user: Person
-    matchedJobGroups: JobGroup[]
+    searchResults: JobGroup[]
 }
 
 interface OptionDisplayProps extends CallbackProps, ValueProps
@@ -226,6 +227,7 @@ const SpecifierPanel = (props: OptionDisplayProps) => {
         workRegionChange,
         workNatureButtonClick,
         fetchJobGroups,
+        jobGroupSelect,
 
         spouseExistenceChange,
     } = props
@@ -357,6 +359,14 @@ const SpecifierPanel = (props: OptionDisplayProps) => {
         </section>
     )
 
+    let previouslyMatchedGroups: JobGroupId[] = []
+    if (props.user.workExperiences && typeof props.jobNatureDialogIndex === 'number') {
+        const matchedJobGroups = props.user.workExperiences[props.jobNatureDialogIndex].matchedJobGroups
+        if (matchedJobGroups) {
+            previouslyMatchedGroups = matchedJobGroups
+        }
+    }
+
     return (
         <aside style={containerStyle}>
             <TitleBar onClick={props.onFilterBarClick}/>
@@ -373,13 +383,11 @@ const SpecifierPanel = (props: OptionDisplayProps) => {
             </div>
             <JobNatureDialog
                 index={props.jobNatureDialogIndex}
-                onSearch={content => {
-                    if (content) {
-                        fetchJobGroups(content)
-                    }
-                }}
+                onSearch={content => content && fetchJobGroups(content)}
                 onConfirm={workNatureConfirm}
-                jobGroups={props.matchedJobGroups}
+                onCheckboxClick={jobGroupSelect}
+                searchResults={props.searchResults}
+                previouslyMatchedGroups={previouslyMatchedGroups}
             />
         </aside>
     )
@@ -391,7 +399,7 @@ function mapStateToProps(state: VisaPlannerState): ValueProps {
         shouldExpand: state.ui.shouldSpecifierPanelExpand,
         user: state.user,
         jobNatureDialogIndex: state.ui.jobNatureDialogTarget,
-        matchedJobGroups: state.ui.matchedJobGroups,
+        searchResults: state.ui.jobGroupMatchingSearchResults,
     }
 }
 
@@ -434,6 +442,8 @@ function mapDispatchToProps(dispatch: Dispatch<any>): CallbackProps {
             dispatch(workNatureButtonClickAction(index)),
         fetchJobGroups: keyword =>
             dispatch(fetchJobGroups(keyword)),
+        jobGroupSelect: (index, jobGroupId, checked) =>
+            dispatch(jobGroupSelectAction(index, jobGroupId, checked)),
         workNatureConfirm: () =>
             dispatch(workNatureConfirmAction()),
 

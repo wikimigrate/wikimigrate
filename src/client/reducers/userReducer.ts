@@ -245,6 +245,29 @@ function userReducer(state = INITIAL_USER_STATE, action: Action): VisaPlannerUse
             }
         }
 
+        case 'JOB_GROUP_SELECT': {
+            const newWorkExperiences = clone(workExperiences)
+            const targetQuality = newWorkExperiences[action.payload.index]
+            if (action.payload.checked) {
+                if (targetQuality.matchedJobGroups) {
+                    targetQuality.matchedJobGroups.push(action.payload.id)
+                }
+                else {
+                    targetQuality.matchedJobGroups = [action.payload.id]
+                }
+            }
+            else {
+                if (targetQuality.matchedJobGroups) {
+                    targetQuality.matchedJobGroups = targetQuality.matchedJobGroups
+                        .filter(id => id !== action.payload.id)
+                }
+            }
+            return {
+                ...state,
+                workExperiences: newWorkExperiences
+            }
+        }
+
         case 'SPOUSE_EXISTENCE_CHANGE': {
             if (action.payload.hasSpouse) {
                 return {

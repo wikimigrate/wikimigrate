@@ -19,12 +19,13 @@ interface Props {
     index: number | null
     onSearch(content: string): void
     onConfirm(content: string): void
-    jobGroups: JobGroup[]
+    onCheckboxClick(index: number, jobGroupId: JobGroupId, checked: boolean): void
+    previouslyMatchedGroups: JobGroupId[]
+    searchResults: JobGroup[]
 }
 
 interface States {
     content: string
-    selectJobGroups: JobGroupId[]
 }
 
 class JobNatureDialog extends React.PureComponent<Props, States> {
@@ -33,7 +34,6 @@ class JobNatureDialog extends React.PureComponent<Props, States> {
         super(props)
         this.state = {
             content: '',
-            selectJobGroups: [],
         }
     }
 
@@ -41,7 +41,10 @@ class JobNatureDialog extends React.PureComponent<Props, States> {
         if (this.props.index === null) {
             return null
         }
-        let jobGroups = this.state.selectJobGroups
+        let {
+            previouslyMatchedGroups,
+            searchResults
+        } = this.props
         return (
             <div
                 role='dialog'
@@ -80,10 +83,10 @@ class JobNatureDialog extends React.PureComponent<Props, States> {
                     width: '90%',
                     overflowY: 'scroll',
                 }}>
-                    {this.props.jobGroups
+                    {searchResults
                          .sort((group1, group2) =>
-                             jobGroups.indexOf(group2.jobGroupId) -
-                             jobGroups.indexOf(group1.jobGroupId)
+                             previouslyMatchedGroups.indexOf(group2.jobGroupId) -
+                             previouslyMatchedGroups.indexOf(group1.jobGroupId)
                          )
                          .map(group => (
                             <label
@@ -97,19 +100,19 @@ class JobNatureDialog extends React.PureComponent<Props, States> {
                                 <input
                                     type='checkbox'
                                     value={group.jobGroupId}
-                                    checked={jobGroups.indexOf(group.jobGroupId) > -1}
+                                    checked={previouslyMatchedGroups.indexOf(group.jobGroupId) > -1}
                                     onChange={event => {
                                         const clickId = event.target.value as JobGroupId
-                                        if (jobGroups.indexOf(clickId) > -1) {
-                                            jobGroups = jobGroups.filter(id => id != clickId)
+                                        const newGroup = searchResults.find(group =>
+                                            group.jobGroupId === clickId
+                                        )
+                                        if (typeof this.props.index === 'number' && newGroup) {
+                                            this.props.onCheckboxClick(
+                                                this.props.index,
+                                                newGroup.jobGroupId,
+                                                event.target.checked
+                                            )
                                         }
-                                        else {
-                                            jobGroups = jobGroups.concat([clickId])
-                                        }
-                                        this.setState({
-                                            ...this.state,
-                                            selectJobGroups: jobGroups
-                                        })
                                     }}
                                 />
                                 {text(group.title)}
