@@ -38,6 +38,7 @@ class JobNatureDialog extends React.PureComponent<Props, States> {
     }
 
     render() {
+        let jobGroups = this.state.selectJobGroups
         return (
             <div
                 role='dialog'
@@ -76,36 +77,42 @@ class JobNatureDialog extends React.PureComponent<Props, States> {
                     width: '90%',
                     overflowY: 'scroll',
                 }}>
-                    {this.props.jobGroups.map(group => (
-                        <label
-                            key={group.jobGroupId}
-                            style={{
-                                display: 'block',
-                                textIndent: '-1em',
-                                marginLeft: '1em',
-                            }}
-                        >
-                            <input
-                                type='checkbox'
-                                value={group.jobGroupId}
-                                onChange={event => {
-                                    const clickId = event.target.value as JobGroupId
-                                    let jobGroups = this.state.selectJobGroups
-                                    if (jobGroups.indexOf(clickId) > -1) {
-                                        jobGroups = jobGroups.filter(id => id != clickId)
-                                    }
-                                    else {
-                                        jobGroups = this.state.selectJobGroups.concat([clickId])
-                                    }
-                                    this.setState({
-                                        ...this.state,
-                                        selectJobGroups: jobGroups
-                                    })
+                    {this.props.jobGroups
+                         .sort((group1, group2) =>
+                             jobGroups.indexOf(group2.jobGroupId) -
+                             jobGroups.indexOf(group1.jobGroupId)
+                         )
+                         .map(group => (
+                            <label
+                                key={group.jobGroupId}
+                                style={{
+                                    display: 'block',
+                                    textIndent: '-1em',
+                                    marginLeft: '1em',
                                 }}
-                            />
-                            {text(group.title)}
-                        </label>
-                    ))}
+                            >
+                                <input
+                                    type='checkbox'
+                                    value={group.jobGroupId}
+                                    checked={jobGroups.indexOf(group.jobGroupId) > -1}
+                                    onChange={event => {
+                                        const clickId = event.target.value as JobGroupId
+                                        if (jobGroups.indexOf(clickId) > -1) {
+                                            jobGroups = jobGroups.filter(id => id != clickId)
+                                        }
+                                        else {
+                                            jobGroups = jobGroups.concat([clickId])
+                                        }
+                                        this.setState({
+                                            ...this.state,
+                                            selectJobGroups: jobGroups
+                                        })
+                                    }}
+                                />
+                                {text(group.title)}
+                            </label>
+                         ))
+                    }
                 </div>
             </div>
         )
