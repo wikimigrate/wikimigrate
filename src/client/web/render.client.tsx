@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as ReactDom from 'react-dom'
 import { Provider } from 'react-redux'
 import thunkMiddleware from 'redux-thunk'
-import { createStore, applyMiddleware, Middleware, } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import reducer from '../reducers'
 import VisaPlanner from './components/VisaPlanner'
 import '../utils/assign-polyfill'
@@ -11,16 +11,7 @@ import { INITIAL_STATE, VisaPlannerState } from '../reducers'
 import '../utils/normalize.css'
 import '../utils/global.css'
 
-let enhancers: Middleware[]
-
-// const reduxDevToolsPlugin = (window as any).__REDUX_DEVTOOLS_EXTENSION__
-const reduxDevToolsPlugin = ''
-if (typeof reduxDevToolsPlugin === 'function') {
-    enhancers = [reduxDevToolsPlugin(), thunkMiddleware]
-}
-else {
-    enhancers = [thunkMiddleware]
-}
+const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const REDUX_STATE_KEY = 'redux_state'
 
@@ -45,7 +36,9 @@ delete (window as any).__WKM_PRELOADED_STATE__
 export const store = createStore<VisaPlannerState>(
     reducer,
     state,
-    applyMiddleware(...enhancers)
+    composeEnhancers(
+        applyMiddleware(thunkMiddleware)
+    )
 )
 
 store.subscribe(() => {
