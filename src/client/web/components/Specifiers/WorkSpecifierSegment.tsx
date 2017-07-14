@@ -14,7 +14,7 @@ import { duration } from '../../../../definitions/auxiliary/Duration'
 import { activeRegionOptions } from '../../../data'
 import { data } from '../../../../data'
 import { specifierSharedStyles } from './specifierSharedStyles'
-import DropdownGroup from './DropdownGroup'
+import InputGroup from './InputGroup'
 
 interface WorkExperienceSpecifierBodyProps extends WorkSpecifiersCallbacks {
     work: WorkExperienceQuality
@@ -30,6 +30,10 @@ const texts = {
     region: {
         en: 'Region',
         zh_hans: '地区'
+    },
+    nature: {
+        en: 'Nature',
+        zh_hans: '性质'
     }
 }
 
@@ -41,10 +45,10 @@ const WorkSpecifierSegment = (props: WorkExperienceSpecifierBodyProps) => (
             additionalStyle={specifierSharedStyles.deleteButtonStyle}
         />
 
-        <DropdownGroup
+        <InputGroup
             title={text(texts.duration)}
             value={props.work.duration.value}
-            onChange={event => props.workDurationChange(
+            onAction={event => props.workDurationChange(
                 props.index,
                 duration(Number(event.target.value), 'year')
             )}
@@ -58,12 +62,12 @@ const WorkSpecifierSegment = (props: WorkExperienceSpecifierBodyProps) => (
                     </option>
                 )
             }
-        </DropdownGroup>
+        </InputGroup>
 
-        <DropdownGroup
+        <InputGroup
             title={text(texts.region)}
             value={props.work.region}
-            onChange={event => props.workRegionChange(
+            onAction={event => props.workRegionChange(
                 props.index,
                 event.target.value as RegionId
             )}
@@ -85,8 +89,16 @@ const WorkSpecifierSegment = (props: WorkExperienceSpecifierBodyProps) => (
                     zh_hans: '其他地区'
                 })}
             </option>
-        </DropdownGroup>
+        </InputGroup>
 
+        <InputGroup
+            title={text(texts.nature)}
+            value={props.work.region}
+            onAction={() => props.workNatureButtonClick(props.index)}
+            type='button'
+        >
+            Set
+        </InputGroup>
     </div>
 )
 

@@ -7,7 +7,7 @@
             "es2017",
             "dom"
         ],
-        "outDir": "../../.built/server",
+        "outDir": "../../build/server",
         "target": "es2017",
         "moduleResolution": "node"
     },
@@ -15,7 +15,8 @@
         "*.ts?"
     ],
     "files": [
-        "chat.ts"
+        "chat.ts",
+        "job.ts"
     ],
     "exclude": [
         "node_modules"

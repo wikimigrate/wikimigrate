@@ -1,4 +1,5 @@
 root=$(pwd)
+BUILD_ROOT='build'
 
 if [ $1 == "prod" ]
 then
@@ -19,7 +20,7 @@ else
     exit 1
 fi
 
-find ".built" -type f -delete
+find ${BUILD_ROOT} -type f -delete
 
 ## Web contents
 cd src/client/web
@@ -28,9 +29,9 @@ cd ${root}
 
 if [ $1 == "stage" ]
 then
-    cp tools/conf/robots.stage.txt .built/web/robots.txt
+    cp tools/conf/robots.stage.txt ${BUILD_ROOT}/web/robots.txt
 else
-    cp tools/conf/robots.prod.txt .built/web/robots.txt
+    cp tools/conf/robots.prod.txt ${BUILD_ROOT}/web/robots.txt
 fi
 
 ## SSR code
@@ -41,10 +42,11 @@ cd ${root}
 ## Backend
 cd src/server
 tsc
-cp pm2.config.js ../../.built
-cp package.json ../../.built/server
+cp pm2.config.js ../../${BUILD_ROOT}
+cp package.json ../../${BUILD_ROOT}/server
 cd ${root}
+cp src/data/canada/jobClass/noc2011.download.json ${BUILD_ROOT}/server/server/data
 
-rsync -azP .built/* ${WKM_DEPLOY_USER}@${server}:/var/www/wkm/
+rsync -azP ${BUILD_ROOT}/* ${WKM_DEPLOY_USER}@${server}:/var/www/wkm/
 ssh ${WKM_DEPLOY_USER}@${server} "cd /var/www/wkm/server; npm install && pm2 restart all"
 cd ${root}

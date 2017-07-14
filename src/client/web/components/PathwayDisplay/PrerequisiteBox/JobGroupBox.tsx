@@ -7,7 +7,7 @@ function getParentClass(jobGroup: JobGroup): JobClassification | null {
     for (const region of data.regions) {
         if (region.jobClassification) {
             const jobClass = region.jobClassification
-            if (jobGroup.parentClassificationSystemId === jobClass.classificationSystemId) {
+            if (jobGroup.system === jobClass.classificationSystemId) {
                 return jobClass
             }
         }
@@ -26,10 +26,10 @@ const JobGroupBox = (props: { jobGroup: JobGroup }) => {
         >
             {parentClass && text(parentClass.titleShort)}
             {'-'}
-            {jobGroup.specification}
+            {jobGroup.designation}
             {' '}
             <span style={{fontWeight: 'lighter'}}>
-                {text(props.jobGroup.description)}
+                {text(props.jobGroup.details && props.jobGroup.details.description)}
             </span>
         </a>
     )

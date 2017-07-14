@@ -2,22 +2,16 @@ import { JobClassification, JobGroup } from '../../../definitions/auxiliary/JobC
 
 const sol: JobGroup = {
     jobGroupId: 'sol',
-    parentClassificationSystemId: 'aus-job-class',
-    specification: '',
-    description: {
-        en: 'Skilled Occupations List',
-    },
-    parentGroup: null,
+    system: 'aus-job-class',
+    designation: '',
+    lineage: []
 }
 
 const csol: JobGroup = {
     jobGroupId: 'csol',
-    parentClassificationSystemId: 'aus-job-class',
-    specification: '',
-    description: {
-        en: 'Consolidated Sponsored Occupations List',
-    },
-    parentGroup: null,
+    system: 'aus-job-class',
+    designation: '',
+    lineage: []
 }
 
 const australiaJobClassification: JobClassification = {
@@ -29,7 +23,6 @@ const australiaJobClassification: JobClassification = {
     titleShort: {
         en: 'SOL',
     },
-    version: '2016',
     jobGroups: {
         sol,
         csol,

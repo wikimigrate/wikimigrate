@@ -3,6 +3,8 @@ import { Duration } from '../../definitions/auxiliary/Duration'
 import { RegionId } from '../../definitions/auxiliary/Region'
 import { LanguageTestId, LanguageTestItem, LanguageTestResult } from '../../definitions/auxiliary/LanguageTest'
 import { EducationStage } from '../../definitions/Qualities/EducationExperience'
+import { Dispatch } from 'redux'
+import { JobGroup, JobGroupId } from '../../definitions/auxiliary/JobClassification'
 
 export interface LanguageTestAddAction {
     type: 'LANGUAGE_TEST_ADD'
@@ -118,6 +120,40 @@ export interface SpouseExistenceChange {
     }
 }
 
+export interface WorkNatureButtonClick {
+    type: 'WORK_NATURE_BUTTON_CLICK',
+    payload: {
+        index: number
+    }
+}
+
+export interface MatchJobGroupRequest {
+    type: 'MATCH_JOB_GROUP_REQUEST'
+    payload: {
+        keyword: string
+    }
+}
+
+export interface ReceiveJobGroupsAction {
+    type: 'RECEIVE_JOB_GROUPS'
+    payload: {
+        jobGroups: JobGroup[]
+    }
+}
+
+export interface JobGroupSelectAction {
+    type: 'JOB_GROUP_SELECT',
+    payload: {
+        index: number,
+        jobGroup: JobGroup
+        checked: boolean
+    }
+}
+
+export interface WorkNatureConfirmAction {
+    type: 'JOB_NATURE_CONFIRM'
+}
+
 export type SpecifierAction =
     | LanguageTestAddAction
     | LanguageTestRemoveAction
@@ -137,6 +173,11 @@ export type SpecifierAction =
     | WorkRemoveAction
     | WorkDurationChangeAction
     | WorkRegionChangeAction
+    | WorkNatureButtonClick
+    | MatchJobGroupRequest
+    | ReceiveJobGroupsAction
+    | JobGroupSelectAction
+    | WorkNatureConfirmAction
 
     | SpouseExistenceChange
 
@@ -296,6 +337,44 @@ export function workRegionChangeAction(
     }
 }
 
+export function workNatureButtonClickAction(index: number): WorkNatureButtonClick {
+    return {
+        type: 'WORK_NATURE_BUTTON_CLICK',
+        payload: {
+            index
+        }
+    }
+}
+
+export function matchJobGroupRequestAction(keyword: string): MatchJobGroupRequest {
+    return {
+        type: 'MATCH_JOB_GROUP_REQUEST',
+        payload: {
+            keyword
+        }
+    }
+}
+
+export function receiveJobGroups(jobGroups: JobGroup[]): ReceiveJobGroupsAction {
+    return {
+        type: 'RECEIVE_JOB_GROUPS',
+        payload: {
+            jobGroups
+        }
+    }
+}
+
+export function fetchJobGroups(keyword: string) {
+    keyword = keyword.toLowerCase()
+    return function(dispatch: Dispatch<any>) {
+        dispatch(matchJobGroupRequestAction(keyword))
+
+        return fetch(`/job/?keyword=${keyword}`)
+            .then(response => response.json())
+            .then(json => dispatch(receiveJobGroups(json)))
+    }
+}
+
 export function spouseExistenceChange(
     hasSpouse: boolean
 ): SpouseExistenceChange {
@@ -304,5 +383,26 @@ export function spouseExistenceChange(
         payload: {
             hasSpouse
         }
+    }
+}
+
+export function jobGroupSelectAction(
+    index: number,
+    jobGroup: JobGroup,
+    checked: boolean
+): JobGroupSelectAction {
+    return {
+        type: 'JOB_GROUP_SELECT',
+        payload: {
+            index,
+            jobGroup,
+            checked,
+        }
+    }
+}
+
+export function workNatureConfirmAction(): WorkNatureConfirmAction {
+    return {
+        type: 'JOB_NATURE_CONFIRM'
     }
 }

@@ -1,7 +1,7 @@
 import BasePrereq from './BasePrereq'
 import { MultiLangStringSet } from '../auxiliary/MultiLang'
 import { RegionId } from '../auxiliary/Region'
-import { JobGroup } from '../auxiliary/JobClassification'
+import { JobGroupId } from '../auxiliary/JobClassification'
 
 export interface OfferPrereq extends BasePrereq {
     prereqId: 'offer'
@@ -9,7 +9,7 @@ export interface OfferPrereq extends BasePrereq {
         region?: RegionId
         status?: 'approved'
     }
-    jobGroup?: JobGroup
+    jobGroup?: JobGroupId
     fulltime?: boolean
     seasonal?: boolean
     description?: MultiLangStringSet
