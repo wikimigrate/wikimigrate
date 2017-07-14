@@ -4,15 +4,23 @@ import { text } from '../../../utils/text'
 
 const style: React.CSSProperties = {
     position: 'absolute',
-    margin: 'auto',
-    width: '90%',
-    height: '70%',
-    background: 'white',
     left: 0,
     right: 0,
     top: 0,
     bottom: 0,
+    height: '70%',
+
+    margin: 'auto',
+    width: '90%',
+    padding: '0.5em',
+
+    background: 'white',
     boxShadow: '0 0 10px #aaa'
+}
+
+const buttonStyle: React.CSSProperties = {
+    border: '1px solid black',
+    marginRight: '2px',
 }
 
 interface Props {
@@ -87,36 +95,47 @@ class JobNatureDialog extends React.PureComponent<Props, States> {
                 role='dialog'
                 style={style}
             >
-                <h1>
-                    Select one that fits
-                </h1>
-                <input
-                    type='text'
-                    value={this.state.content}
-                    onChange={event => this.setState({
-                        content: event.target.value
-                    })}
-                    style={{
-                        border: '1px solid #999'
-                    }}
-                />
-                <button
-                    onClick={() => this.props.onSearch(this.state.content)}
-                >
-                    Search
-                </button>
-                <button
-                    onClick={() => this.props.onConfirm(this.state.content)}
-                >
-                    Confirm
-                </button>
                 <div style={{
-                    position: 'absolute',
-                    bottom: '1em',
-                    left: 0,
-                    right: 0,
-                    margin: 'auto',
-                    height: 'calc(100% - 10em)',
+                    textAlign: 'center'
+                }}>
+                    <input
+                        type='text'
+                        value={this.state.content}
+                        onChange={event => this.setState({
+                            content: event.target.value
+                        })}
+                        placeholder={text({
+                            en: 'Describe your work',
+                            zh_hans: '工作性质关键字'
+                        })}
+                        style={{
+                            border: '1px solid #999',
+                            padding: '3px',
+                            marginRight: '2px'
+                        }}
+                    />
+                    <button
+                        onClick={() => this.props.onSearch(this.state.content)}
+                        style={buttonStyle}
+                    >
+                        {text({
+                            en: 'Search',
+                            zh_hans: '搜索'
+                        })}
+                    </button>
+                    <button
+                        onClick={() => this.props.onConfirm(this.state.content)}
+                        style={buttonStyle}
+                    >
+                        {text({
+                            en: 'Close',
+                            zh_hans: '关闭'
+                        })}
+                    </button>
+                </div>
+                <div style={{
+                    margin: '1em',
+                    height: 'calc(100% - 7em)',
                     width: '90%',
                     overflowY: 'scroll',
                 }}>
