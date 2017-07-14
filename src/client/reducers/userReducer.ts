@@ -111,7 +111,7 @@ function userReducer(state = INITIAL_USER_STATE, action: Action): VisaPlannerUse
         case 'LANGUAGE_TEST_REMOVE': {
             return {
                 ...state,
-                languageTests: languageTests.splice(action.payload.index, 1)
+                languageTests: languageTests.filter((_, index) => index !== action.payload.index)
             }
         }
 
