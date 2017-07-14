@@ -121,13 +121,26 @@ function uiReducer(state = INITIAL_UI_STATE, action: Action): VisaPlannerUIState
             }
         }
 
+        case 'JOB_GROUP_SELECT': {
+            let newCache: JobGroup[] = []
+            if (action.payload.checked) {
+                newCache = state.jobGroupDataCache.concat([action.payload.jobGroup])
+            }
+            else {
+                newCache = state.jobGroupDataCache.filter(
+                    group => group.jobGroupId !== action.payload.jobGroup.jobGroupId
+                )
+            }
+            return {
+                ...state,
+                jobGroupDataCache: newCache
+            }
+        }
+
         case 'RECEIVE_JOB_GROUPS': {
             return {
                 ...state,
                 jobGroupMatchingSearchResults: action.payload.jobGroups,
-                jobGroupDataCache: state.jobGroupDataCache.concat(
-                    action.payload.jobGroups
-                )
             }
         }
 

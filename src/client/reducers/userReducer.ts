@@ -246,20 +246,21 @@ function userReducer(state = INITIAL_USER_STATE, action: Action): VisaPlannerUse
         }
 
         case 'JOB_GROUP_SELECT': {
+            const jobGroupId = action.payload.jobGroup.jobGroupId
             const newWorkExperiences = clone(workExperiences)
             const targetQuality = newWorkExperiences[action.payload.index]
             if (action.payload.checked) {
                 if (targetQuality.matchedJobGroups) {
-                    targetQuality.matchedJobGroups.push(action.payload.id)
+                    targetQuality.matchedJobGroups.push(jobGroupId)
                 }
                 else {
-                    targetQuality.matchedJobGroups = [action.payload.id]
+                    targetQuality.matchedJobGroups = [jobGroupId]
                 }
             }
             else {
                 if (targetQuality.matchedJobGroups) {
                     targetQuality.matchedJobGroups = targetQuality.matchedJobGroups
-                        .filter(id => id !== action.payload.id)
+                        .filter(id => id !== jobGroupId)
                 }
             }
             return {

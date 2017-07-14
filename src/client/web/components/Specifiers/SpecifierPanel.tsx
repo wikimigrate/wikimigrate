@@ -176,7 +176,7 @@ export interface SpouseSpecifiersCallbacks {
 // Not to pass to other components
 interface TopLevelSpecifierCallbacks {
     onFilterBarClick(): void
-    jobGroupSelect(index: number, jobGroup: JobGroupId, checked: boolean): void
+    jobGroupSelect(index: number, jobGroup: JobGroup, checked: boolean): void
     workNatureConfirm(): void
     fetchJobGroups(keyword: string): void
     educationAdd(): void
@@ -197,7 +197,7 @@ interface ValueProps {
     jobNatureDialogIndex: number | null
     user: Person
     searchResults: JobGroup[]
-    jobGroupsData: JobGroup[]
+    jobGroupsCache: JobGroup[]
 }
 
 interface OptionDisplayProps extends CallbackProps, ValueProps
@@ -229,7 +229,7 @@ const SpecifierPanel = (props: OptionDisplayProps) => {
         workNatureButtonClick,
         fetchJobGroups,
         jobGroupSelect,
-        jobGroupsData,
+        jobGroupsCache,
 
         spouseExistenceChange,
     } = props
@@ -390,7 +390,7 @@ const SpecifierPanel = (props: OptionDisplayProps) => {
                 onCheckboxClick={jobGroupSelect}
                 searchResults={props.searchResults}
                 previouslyMatchedGroups={previouslyMatchedGroups}
-                jobGroupsData={jobGroupsData}
+                jobGroupsCache={jobGroupsCache}
             />
         </aside>
     )
@@ -403,7 +403,7 @@ function mapStateToProps(state: VisaPlannerState): ValueProps {
         user: state.user,
         jobNatureDialogIndex: state.ui.jobNatureDialogTarget,
         searchResults: state.ui.jobGroupMatchingSearchResults,
-        jobGroupsData: state.ui.jobGroupDataCache
+        jobGroupsCache: state.ui.jobGroupDataCache
     }
 }
 
@@ -446,8 +446,8 @@ function mapDispatchToProps(dispatch: Dispatch<any>): CallbackProps {
             dispatch(workNatureButtonClickAction(index)),
         fetchJobGroups: keyword =>
             dispatch(fetchJobGroups(keyword)),
-        jobGroupSelect: (index, jobGroupId, checked) =>
-            dispatch(jobGroupSelectAction(index, jobGroupId, checked)),
+        jobGroupSelect: (index, jobGroup, checked) =>
+            dispatch(jobGroupSelectAction(index, jobGroup, checked)),
         workNatureConfirm: () =>
             dispatch(workNatureConfirmAction()),
 

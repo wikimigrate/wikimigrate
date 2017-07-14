@@ -19,10 +19,10 @@ interface Props {
     index: number | null
     onSearch(content: string): void
     onConfirm(content: string): void
-    onCheckboxClick(index: number, jobGroupId: JobGroupId, checked: boolean): void
+    onCheckboxClick(index: number, jobGroup: JobGroup, checked: boolean): void
     previouslyMatchedGroups: JobGroupId[]
     searchResults: JobGroup[]
-    jobGroupsData: JobGroup[]
+    jobGroupsCache: JobGroup[]
 }
 
 interface States {
@@ -46,8 +46,10 @@ class JobNatureDialog extends React.PureComponent<Props, States> {
         let {
             previouslyMatchedGroups,
             searchResults,
-            jobGroupsData,
+            jobGroupsCache,
         } = this.props
+
+        const jobGroupsData = searchResults.concat(jobGroupsCache)
 
         const JobGroupChecklistItem = (props: {jobGroup: JobGroup}) => (
             <label
@@ -70,7 +72,7 @@ class JobNatureDialog extends React.PureComponent<Props, States> {
                         if (typeof this.props.index === 'number' && newGroup) {
                             this.props.onCheckboxClick(
                                 this.props.index,
-                                newGroup.jobGroupId,
+                                newGroup,
                                 event.target.checked
                             )
                         }
@@ -119,7 +121,7 @@ class JobNatureDialog extends React.PureComponent<Props, States> {
                     overflowY: 'scroll',
                 }}>
                     {previouslyMatchedGroups
-                        .map(id => this.props.jobGroupsData.find(group => group.jobGroupId === id))
+                        .map(id => jobGroupsData.find(group => group.jobGroupId === id))
                         .map(group => {
                             if (group) {
                                 return <JobGroupChecklistItem key={group.jobGroupId} jobGroup={group} />
@@ -127,7 +129,7 @@ class JobNatureDialog extends React.PureComponent<Props, States> {
                             else {
                                 console.warn('JobGroup not found:',
                                     'ids', previouslyMatchedGroups,
-                                    'cache', this.props.jobGroupsData,
+                                    'data', jobGroupsData,
                                 )
                             }
                         })

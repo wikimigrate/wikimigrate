@@ -145,7 +145,7 @@ export interface JobGroupSelectAction {
     type: 'JOB_GROUP_SELECT',
     payload: {
         index: number,
-        id: JobGroupId
+        jobGroup: JobGroup
         checked: boolean
     }
 }
@@ -388,14 +388,14 @@ export function spouseExistenceChange(
 
 export function jobGroupSelectAction(
     index: number,
-    id: JobGroupId,
+    jobGroup: JobGroup,
     checked: boolean
 ): JobGroupSelectAction {
     return {
         type: 'JOB_GROUP_SELECT',
         payload: {
             index,
-            id,
+            jobGroup,
             checked,
         }
     }
