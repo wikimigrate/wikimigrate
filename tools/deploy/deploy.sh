@@ -45,6 +45,7 @@ tsc
 cp pm2.config.js ../../${BUILD_ROOT}
 cp package.json ../../${BUILD_ROOT}/server
 cd ${root}
+cp src/data/canada/jobClass/noc2011.download.json ${BUILD_ROOT}/server/server/data
 
 rsync -azP ${BUILD_ROOT}/* ${WKM_DEPLOY_USER}@${server}:/var/www/wkm/
 ssh ${WKM_DEPLOY_USER}@${server} "cd /var/www/wkm/server; npm install && pm2 restart all"
