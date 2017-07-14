@@ -22,6 +22,7 @@ interface Props {
     onCheckboxClick(index: number, jobGroupId: JobGroupId, checked: boolean): void
     previouslyMatchedGroups: JobGroupId[]
     searchResults: JobGroup[]
+    jobGroupsData: JobGroup[]
 }
 
 interface States {
@@ -41,10 +42,44 @@ class JobNatureDialog extends React.PureComponent<Props, States> {
         if (this.props.index === null) {
             return null
         }
+
         let {
             previouslyMatchedGroups,
-            searchResults
+            searchResults,
+            jobGroupsData,
         } = this.props
+
+        const JobGroupChecklistItem = (props: {jobGroup: JobGroup}) => (
+            <label
+                key={props.jobGroup.jobGroupId}
+                style={{
+                    display: 'block',
+                    textIndent: '-1em',
+                    marginLeft: '1em',
+                }}
+            >
+                <input
+                    type='checkbox'
+                    value={props.jobGroup.jobGroupId}
+                    checked={previouslyMatchedGroups.indexOf(props.jobGroup.jobGroupId) > -1}
+                    onChange={event => {
+                        const clickId = event.target.value as JobGroupId
+                        const newGroup = jobGroupsData.find(jobGroup =>
+                            jobGroup.jobGroupId === clickId
+                        )
+                        if (typeof this.props.index === 'number' && newGroup) {
+                            this.props.onCheckboxClick(
+                                this.props.index,
+                                newGroup.jobGroupId,
+                                event.target.checked
+                            )
+                        }
+                    }}
+                />
+                {text(props.jobGroup.title)}
+            </label>
+        )
+
         return (
             <div
                 role='dialog'
@@ -83,41 +118,27 @@ class JobNatureDialog extends React.PureComponent<Props, States> {
                     width: '90%',
                     overflowY: 'scroll',
                 }}>
+                    {previouslyMatchedGroups
+                        .map(id => this.props.jobGroupsData.find(group => group.jobGroupId === id))
+                        .map(group => {
+                            if (group) {
+                                return <JobGroupChecklistItem key={group.jobGroupId} jobGroup={group} />
+                            }
+                            else {
+                                console.warn('JobGroup not found:',
+                                    'ids', previouslyMatchedGroups,
+                                    'cache', this.props.jobGroupsData,
+                                )
+                            }
+                        })
+                    }
                     {searchResults
-                         .sort((group1, group2) =>
-                             previouslyMatchedGroups.indexOf(group2.jobGroupId) -
-                             previouslyMatchedGroups.indexOf(group1.jobGroupId)
+                         .filter(group =>
+                             previouslyMatchedGroups.indexOf(group.jobGroupId) === -1
                          )
-                         .map(group => (
-                            <label
-                                key={group.jobGroupId}
-                                style={{
-                                    display: 'block',
-                                    textIndent: '-1em',
-                                    marginLeft: '1em',
-                                }}
-                            >
-                                <input
-                                    type='checkbox'
-                                    value={group.jobGroupId}
-                                    checked={previouslyMatchedGroups.indexOf(group.jobGroupId) > -1}
-                                    onChange={event => {
-                                        const clickId = event.target.value as JobGroupId
-                                        const newGroup = searchResults.find(group =>
-                                            group.jobGroupId === clickId
-                                        )
-                                        if (typeof this.props.index === 'number' && newGroup) {
-                                            this.props.onCheckboxClick(
-                                                this.props.index,
-                                                newGroup.jobGroupId,
-                                                event.target.checked
-                                            )
-                                        }
-                                    }}
-                                />
-                                {text(group.title)}
-                            </label>
-                         ))
+                         .map(group =>
+                             <JobGroupChecklistItem key={group.jobGroupId} jobGroup={group} />
+                         )
                     }
                 </div>
             </div>

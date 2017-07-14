@@ -197,6 +197,7 @@ interface ValueProps {
     jobNatureDialogIndex: number | null
     user: Person
     searchResults: JobGroup[]
+    jobGroupsData: JobGroup[]
 }
 
 interface OptionDisplayProps extends CallbackProps, ValueProps
@@ -228,6 +229,7 @@ const SpecifierPanel = (props: OptionDisplayProps) => {
         workNatureButtonClick,
         fetchJobGroups,
         jobGroupSelect,
+        jobGroupsData,
 
         spouseExistenceChange,
     } = props
@@ -388,6 +390,7 @@ const SpecifierPanel = (props: OptionDisplayProps) => {
                 onCheckboxClick={jobGroupSelect}
                 searchResults={props.searchResults}
                 previouslyMatchedGroups={previouslyMatchedGroups}
+                jobGroupsData={jobGroupsData}
             />
         </aside>
     )
@@ -400,6 +403,7 @@ function mapStateToProps(state: VisaPlannerState): ValueProps {
         user: state.user,
         jobNatureDialogIndex: state.ui.jobNatureDialogTarget,
         searchResults: state.ui.jobGroupMatchingSearchResults,
+        jobGroupsData: state.ui.jobGroupDataCache
     }
 }
 

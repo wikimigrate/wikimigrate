@@ -20,6 +20,7 @@ export interface VisaPlannerUIState {
     jobNatureDialogTarget: number | null
     pathwayOnDisplay: PathwayDescriptor | null
     jobGroupMatchingSearchResults: JobGroup[]
+    jobGroupDataCache: JobGroup[]
 }
 
 export const INITIAL_UI_STATE: VisaPlannerUIState = {
@@ -30,6 +31,7 @@ export const INITIAL_UI_STATE: VisaPlannerUIState = {
     expandedFilterId: null,
     pathwayOnDisplay: null,
     jobGroupMatchingSearchResults: [],
+    jobGroupDataCache: []
 }
 
 const ESC_KEY_CODE = 27
@@ -122,7 +124,10 @@ function uiReducer(state = INITIAL_UI_STATE, action: Action): VisaPlannerUIState
         case 'RECEIVE_JOB_GROUPS': {
             return {
                 ...state,
-                jobGroupMatchingSearchResults: action.payload.jobGroups
+                jobGroupMatchingSearchResults: action.payload.jobGroups,
+                jobGroupDataCache: state.jobGroupDataCache.concat(
+                    action.payload.jobGroups
+                )
             }
         }
 
