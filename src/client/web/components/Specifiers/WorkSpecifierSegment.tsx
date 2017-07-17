@@ -97,7 +97,7 @@ const WorkSpecifierSegment = (props: WorkExperienceSpecifierBodyProps) => (
             onAction={() => props.workNatureButtonClick(props.index)}
             type='button'
         >
-            {props.work.matchedJobGroups
+            {props.work.matchedJobGroups && props.work.matchedJobGroups.length
                 ? text({
                     en: 'Modify',
                     zh_hans: '修改',
