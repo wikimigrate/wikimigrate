@@ -6,7 +6,7 @@ import federalSkilledWorker from './transitions/express/federalSkilledWorker'
 import federalSkilledTrade from './transitions/express/federalSkilledTrade'
 import startupVisa from './transitions/startupVisa'
 
-import noc2016 from './jobClass/noc2016'
+import noc2011 from './jobClass'
 import { designatedAngelInvestors, designatedBusinessIncubators, designatedVentureCapitalFunds } from './fundSources'
 import crs from './crs'
 
@@ -46,7 +46,7 @@ const canada: Region = {
             },
         },
     ],
-    jobClassification: noc2016,
+    jobClassification: noc2011,
     fundSourceGroupList: [
         designatedVentureCapitalFunds,
         designatedAngelInvestors,
