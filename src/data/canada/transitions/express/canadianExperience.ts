@@ -41,8 +41,8 @@ const canadianExperience: Transition = {
                     workHoursPerWeek: duration(30, 'hour'),
                     region: 'canada',
                     jobNature: oneOf([
-                        jobClass.jobGroups.noc0,
-                        jobClass.jobGroups.nocA,
+                        'noc2011-0',
+                        'noc2011-A',
                     ]),
                 } as WorkExperiencePrereq,
             ], {
@@ -69,7 +69,7 @@ const canadianExperience: Transition = {
                     workHoursPerWeek: duration(30, 'hour'),
                     region: 'canada',
                     jobNature: oneOf([
-                        jobClass.jobGroups.nocB,
+                        'noc2011-B',
                     ]),
                 } as WorkExperiencePrereq,
             ], {

@@ -1,6 +1,6 @@
 import { MultiLangStringSet } from '../auxiliary/MultiLang'
 import BasePrereq from './BasePrereq'
-import { JobGroup } from '../auxiliary/JobClassification'
+import { JobGroupId } from '../auxiliary/JobClassification'
 import Duration from '../auxiliary/Duration'
 import { Combination } from '../auxiliary/Combination'
 import { Interval } from '../auxiliary/Operator'
@@ -13,7 +13,7 @@ export interface WorkExperiencePrereq extends BasePrereq {
     workHoursPerWeek?: Duration
     region: RegionId
     regionExcept?: RegionId // TODO: unify with region + logic operators
-    jobNature?: Combination<JobGroup | MultiLangStringSet>
+    jobNature?: Combination<JobGroupId | MultiLangStringSet>
 }
 
 export default WorkExperiencePrereq

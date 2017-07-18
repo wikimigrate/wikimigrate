@@ -49,12 +49,12 @@ const federalSkilledTrade: Transition = {
                 workHoursPerWeek: duration(30, 'hour'),
                 region: 'world',
                 jobNature: oneOf([
-                    jobClass.jobGroups.noc72,
-                    jobClass.jobGroups.noc73,
-                    jobClass.jobGroups.noc82,
-                    jobClass.jobGroups.noc92,
-                    jobClass.jobGroups.noc632,
-                    jobClass.jobGroups.noc633,
+                    'noc2011-72',
+                    'noc2011-73',
+                    'noc2011-82',
+                    'noc2011-92',
+                    'noc2011-632',
+                    'noc2011-633',
                 ]),
             } as WorkExperiencePrereq,
         ], {
