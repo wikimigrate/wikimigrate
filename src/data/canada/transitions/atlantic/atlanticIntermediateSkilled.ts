@@ -23,7 +23,7 @@ const atlanticIntermediateSkilled: Transition = {
         atlanticWorkersJob,
         {
             prereqId: 'work_experience',
-            jobNature: oneOf([
+            jobGroups: oneOf([
                 'noc2011-C',
             ]),
         } as WorkExperiencePrereq,

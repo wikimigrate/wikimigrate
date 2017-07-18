@@ -21,6 +21,7 @@ import { EducationPrereq } from '../definitions/Prerequisites/EducationPrereq'
 import { Person } from '../definitions/Person'
 import { clone } from '../client/utils/clone'
 import languageTestProfiles from '../data/common/languageTestProfiles'
+import { JobGroupId } from '../definitions/auxiliary/JobClassification'
 
 const warningFlags: any = {}
 
@@ -161,35 +162,76 @@ export function durationMatch(demand: Interval<Duration>, actual: Duration): boo
     }
 }
 
+function jobGroupIdMatch(demand: JobGroupId, actual: JobGroupId): boolean {
+    return actual.startsWith(demand)
+}
+
 function satisfyWorkPrereq(
     work: WorkExperienceQuality,
     prereq: WorkExperiencePrereq,
     fallback: boolean,
 ): boolean {
 
-    // TODO: Implement other requirements
-    if (prereq.jobNature) {
-        if (warningFlags['jobNature']) {
-            console.warn('[Unimplemented: prereq.jobNature')
-            warningFlags['jobNature'] = true
-        }
+    const matchFlags: {[key in keyof WorkExperiencePrereq]: boolean} = {
+        prereqId: true, // placeholder
+        region: regionMatch(prereq.region, work.region),
+        regionExcept: fallback,
+        duration: fallback,
+        withinLast: fallback,
+        minimalWeeklyHours: fallback,
+        jobGroups: fallback,
     }
 
-    if (!regionMatch(prereq.region, work.region)) {
-        return false
-    }
-    else if (prereq.regionExcept && regionMatch(prereq.regionExcept, work.region)) {
-        return false
-    }
-    else if (!work.duration) {
-        return fallback
-    }
-    else if (prereq.duration) {
-        return durationMatch(prereq.duration, work.duration)
+    if (prereq.regionExcept) {
+        matchFlags.regionExcept = !regionMatch(prereq.regionExcept, work.region)
     }
     else {
-        return true
+        matchFlags.regionExcept = true
     }
+
+    if (prereq.duration) {
+        matchFlags.duration = durationMatch(prereq.duration, work.duration)
+    }
+    else {
+        matchFlags.duration = true
+    }
+
+    if (prereq.withinLast) {
+        // TODO
+        console.warn('Unimplemented: work experience prereq.withinLast')
+    }
+    else {
+        matchFlags.withinLast = true
+    }
+
+    if (typeof prereq.minimalWeeklyHours === 'number') {
+        matchFlags.minimalWeeklyHours = Number(work.weeklyHours) > prereq.minimalWeeklyHours
+    }
+    else {
+        matchFlags.minimalWeeklyHours = true
+    }
+
+    if (prereq.jobGroups) {
+        if (work.matchedJobGroups) {
+            outterLoop:
+            for (const demandGroup of prereq.jobGroups) {
+                for (const actualGroup of work.matchedJobGroups) {
+                    if (jobGroupIdMatch(demandGroup, actualGroup)) {
+                        matchFlags.jobGroups = true
+                        break outterLoop
+                    }
+                }
+            }
+        }
+        else {
+            matchFlags.jobGroups = false
+        }
+    }
+    else {
+        matchFlags.jobGroups = true
+    }
+
+    return Object.values(matchFlags).every(b => b)
 }
 
 function satisfyEducationPrereq(

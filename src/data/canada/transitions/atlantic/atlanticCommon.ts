@@ -20,7 +20,7 @@ const atlanticJobOfferCommon = allOf([
 const atlanticWorkersJob = allOf([
     {
         prereqId: 'work_experience',
-        jobNature: identity([
+        jobGroups: identity([
             {
                 en: 'You must have worked at least one year (1,560 hours total or 30 hours per week) within the last three years.',
             },
@@ -28,7 +28,7 @@ const atlanticWorkersJob = allOf([
     } as WorkExperiencePrereq,
     {
         prereqId: 'work_experience',
-        jobNature: identity([
+        jobGroups: identity([
             {
                 en: 'The work must be in one occupation (but can be with different employers) and paid (volunteering or unpaid internships do not count)',
             },

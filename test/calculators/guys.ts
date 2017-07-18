@@ -2,7 +2,6 @@ import { getInitialStatus, Person } from '../../src/definitions/Person'
 import { EducationQuality } from '../../src/definitions/Qualities/EducationExperience'
 import { duration } from '../../src/definitions/auxiliary/Duration'
 import { WorkExperienceQuality } from '../../src/definitions/Qualities/WorkExperience'
-
 export const alice: Person = {
     birth: {
         date: {

@@ -45,12 +45,12 @@ const federalSkilledWorker: Transition = {
                 length: ['>=', duration(1, 'year')],
                 withinLast: duration(10, 'year'),
                 region: 'world',
-                workHoursPerWeek: duration(30, 'hour'),
-                jobNature: oneOf([
+                minimalWeeklyHours: 30,
+                jobGroups: [
                     'noc2011-0',
                     'noc2011-A',
                     'noc2011-B',
-                ]),
+                ],
             } as WorkExperiencePrereq,
         ], {
             title: prereqTitleDict.work_experience,

@@ -35,7 +35,7 @@ const WorkExperienceBox = (props: { prereq: WorkExperiencePrereq, lang: LangId }
                         })
                 }
             </div>
-            <CombinationBox combo={prereq.jobNature as any} level={1} lang={props.lang}/>
+            <CombinationBox combo={prereq.jobGroups as any} level={1} lang={props.lang}/>
         </div>
     )
 }

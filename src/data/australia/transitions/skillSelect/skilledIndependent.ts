@@ -25,9 +25,9 @@ const skilledIndependent: Transition = {
         identity([
             {
                 prereqId: 'work_experience',
-                jobNature: allOf([
-                    jobClass.jobGroups.sol,
-                ]),
+                jobGroups: [
+                    'sol'
+                ],
             } as WorkExperiencePrereq,
         ], {
             title: prereqTitleDict.work_experience

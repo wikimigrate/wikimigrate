@@ -11,12 +11,12 @@ type Scenario = 'normal' | 'age'
 interface DurationUnitProfile {
     name: {
         [key in Scenario]: MultiLangStringSet
-        }
+    }
 }
 
 type DurationUnitProfiles = {
     [key in DurationUnit]: DurationUnitProfile
-    }
+}
 
 export const durationUnitProfiles: DurationUnitProfiles = {
     year: {

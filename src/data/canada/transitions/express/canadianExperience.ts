@@ -38,9 +38,9 @@ const canadianExperience: Transition = {
                     prereqId: 'work_experience',
                     length: ['>=', duration(12, 'month')],
                     withinLast: duration(3, 'year'),
-                    workHoursPerWeek: duration(30, 'hour'),
+                    minimalWeeklyHours: duration(30, 'hour'),
                     region: 'canada',
-                    jobNature: oneOf([
+                    jobGroups: oneOf([
                         'noc2011-0',
                         'noc2011-A',
                     ]),
@@ -66,9 +66,9 @@ const canadianExperience: Transition = {
                     prereqId: 'work_experience',
                     length: ['>=', duration(12, 'month')],
                     withinLast: duration(3, 'year'),
-                    workHoursPerWeek: duration(30, 'hour'),
+                    minimalWeeklyHours: duration(30, 'hour'),
                     region: 'canada',
-                    jobNature: oneOf([
+                    jobGroups: oneOf([
                         'noc2011-B',
                     ]),
                 } as WorkExperiencePrereq,

@@ -17,7 +17,7 @@ const selfEmployedVisa: Transition = {
         allOf([
             {
                 prereqId: 'work_experience',
-                jobNature: identity([
+                jobGroups: identity([
                     {
                         en: 'Have relevant experience in cultural activities or athletics',
                     },
@@ -25,7 +25,7 @@ const selfEmployedVisa: Transition = {
             } as WorkExperiencePrereq,
             {
                 prereqId: 'work_experience',
-                jobNature: identity([
+                jobGroups: identity([
                     {
                         en: 'Intend and be able to make a significant contribution to the cultural or athletic life of Canada',
                     },
@@ -35,7 +35,7 @@ const selfEmployedVisa: Transition = {
         allOf([
             {
                 prereqId: 'work_experience',
-                jobNature: identity([
+                jobGroups: identity([
                     {
                         en: 'Have experience in farm management',
                     },
@@ -43,7 +43,7 @@ const selfEmployedVisa: Transition = {
             } as WorkExperiencePrereq,
             {
                 prereqId: 'work_experience',
-                jobNature: identity([
+                jobGroups: identity([
                     {
                         en: 'Intend and be able to buy and manage a farm in Canada',
                     },

@@ -46,16 +46,16 @@ const federalSkilledTrade: Transition = {
                 prereqId: 'work_experience',
                 length: ['>=', duration(2, 'year')],
                 withinLast: duration(5, 'year'),
-                workHoursPerWeek: duration(30, 'hour'),
+                minimalWeeklyHours: 30,
                 region: 'world',
-                jobNature: oneOf([
+                jobGroups: [
                     'noc2011-72',
                     'noc2011-73',
                     'noc2011-82',
                     'noc2011-92',
                     'noc2011-632',
                     'noc2011-633',
-                ]),
+                ],
             } as WorkExperiencePrereq,
         ], {
             title: prereqTitleDict.work_experience,
