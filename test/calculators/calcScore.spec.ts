@@ -14,7 +14,7 @@ const spec: Spec<[Person, ScoreSystem], number>[] = [
             alice,
             crs
         ],
-        479,
+        679,
     ],
     [
         "bob",

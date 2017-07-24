@@ -5,7 +5,8 @@ import AgePrereq from '../../src/definitions/Prerequisites/AgePrereq'
 import { duration } from '../../src/definitions/auxiliary/Duration'
 import { evaluate, Spec } from './evaluator'
 import { Prerequisite } from '../../src/definitions/Prerequisites'
-import { bob } from './guys'
+import { alice, bob } from './guys'
+import federalSkilledTrade from '../../src/data/canada/transitions/express/federalSkilledTrade'
 
 const simpleCanadian: Person = {
     birth: {
@@ -83,11 +84,11 @@ const specs: Spec<[Person, Prerequisite | Combination<Prerequisite>, boolean], B
     ],
 
     [
-        "Combination test - complex",
+        "Combination test - work nature requirements",
         [
-            bob,
-            oneOf([]),
-            true,
+            alice,
+            federalSkilledTrade.prerequisiteList,
+            false,
         ],
         true,
     ]

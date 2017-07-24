@@ -2,6 +2,7 @@ import { getInitialStatus, Person } from '../../src/definitions/Person'
 import { EducationQuality } from '../../src/definitions/Qualities/EducationExperience'
 import { duration } from '../../src/definitions/auxiliary/Duration'
 import { WorkExperienceQuality } from '../../src/definitions/Qualities/WorkExperience'
+import { OfferQuality } from '../../src/definitions/Qualities/Offer'
 export const alice: Person = {
     birth: {
         date: {
@@ -39,8 +40,24 @@ export const alice: Person = {
         {
             qualityId: 'work_experience',
             region: 'canada',
-            duration: duration(2, 'year')
-        } as WorkExperienceQuality
+            duration: duration(2, 'year'),
+            weeklyHours: 50,
+            matchedJobGroups: [
+                'noc2011-92'
+            ]
+        }
+    ],
+    offers: [
+        {
+            qualityId: 'offer',
+            employer: {
+                region: 'canada',
+                status: 'approved'
+            },
+            jobGroup: 'noc2011-92',
+            fulltime: true,
+            seasonal: false,
+        }
     ]
 }
 

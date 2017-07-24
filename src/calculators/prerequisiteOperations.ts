@@ -22,6 +22,8 @@ import { Person } from '../definitions/Person'
 import { clone } from '../client/utils/clone'
 import languageTestProfiles from '../data/common/languageTestProfiles'
 import { JobGroupId } from '../definitions/auxiliary/JobClassification'
+import { OfferQuality } from '../definitions/Qualities/Offer'
+import { OfferPrereq } from '../definitions/Prerequisites/OfferPrereq'
 
 const warningFlags: any = {}
 
@@ -199,6 +201,7 @@ function satisfyWorkPrereq(
     if (prereq.withinLast) {
         // TODO
         console.warn('Unimplemented: work experience prereq.withinLast')
+        matchFlags.withinLast = true
     }
     else {
         matchFlags.withinLast = true
@@ -260,6 +263,53 @@ function satisfyEducationPrereq(
         console.info('[Unimplemented] Checking prereq.certification')
     }
     return true
+}
+
+function satisfyOfferPrereq(
+    offer: OfferQuality,
+    prereq: OfferPrereq,
+    fallback: boolean
+): boolean {
+    const matchFlags: {[key in keyof OfferPrereq]: boolean} = {
+        prereqId: true,
+        employer: fallback,
+        jobGroup: fallback,
+        fulltime: fallback,
+        seasonal: fallback,
+        description: true
+    }
+
+    if (prereq.employer.region) {
+        matchFlags.employer = regionMatch(prereq.employer.region, offer.employer.region)
+    }
+    else {
+        matchFlags.employer = true
+    }
+
+    if (prereq.jobGroup) {
+        matchFlags.jobGroup = jobGroupIdMatch(prereq.jobGroup, offer.jobGroup)
+    }
+    else {
+        matchFlags.jobGroup = true
+    }
+
+    if (typeof prereq.fulltime === 'boolean') {
+        matchFlags.fulltime = prereq.fulltime === offer.fulltime
+    }
+    else {
+        matchFlags.fulltime = true
+    }
+
+    if (typeof prereq.seasonal === 'boolean') {
+        matchFlags.seasonal = prereq.seasonal === offer.seasonal
+    }
+    else {
+        return true
+    }
+
+    console.info(matchFlags)
+
+    return Object.values(matchFlags).every(b => b)
 }
 
 function satisfyPrerequisite(
@@ -328,6 +378,18 @@ function satisfyPrerequisite(
             return false
         }
 
+        case 'offer': {
+            if (!person.offers) {
+                return fallback
+            }
+            for (const offer of person.offers) {
+                if (satisfyOfferPrereq(offer, prereq, fallback)) {
+                    return true
+                }
+            }
+            return false
+        }
+
         case 'union': {
             return !!person.spouse === prereq.inUnion
         }
@@ -338,6 +400,7 @@ function satisfyPrerequisite(
             }
             return satisfyPrerequisite(person.spouse, prereq, fallback)
         }
+
 
         default: {
             if (!warningFlags[prereq.prereqId]) {
