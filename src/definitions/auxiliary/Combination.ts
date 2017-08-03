@@ -59,7 +59,12 @@ export function not<T>(args: [T], meta?: CombinationMeta): Combination<T> {
 export const identity = allOf
 
 export function isCombination(args: any): boolean {
-    return !!(args['combinator'] && args['operands'])
+    if (typeof args === 'object') {
+        return !!(args['combinator'] && args['operands'])
+    }
+    else {
+        return false
+    }
 }
 
 export default Combination
