@@ -6,7 +6,8 @@ import * as Koa from 'koa'
 import * as React from 'react'
 import { renderToString } from 'react-dom/server'
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
+import thunkMiddleware from 'redux-thunk'
 
 import { ConnectedVisaPlanner } from '../web/components/VisaPlanner'
 import reducer, { VisaPlannerState } from '../reducers'
@@ -37,7 +38,12 @@ function getLang(acceptLang: string): LangId {
 let template: string = ''
 
 async function handleRender(context: Koa.Context, next: () => Promise<any>) {
-    const store = createStore<VisaPlannerState>(reducer)
+    const store = createStore<VisaPlannerState>(
+        reducer,
+        compose(
+            applyMiddleware(thunkMiddleware)
+        )
+    )
 
     store.dispatch(urlpathChangeAction(context.path))
     const lang = getLang(context.request.req.headers['accept-language'])
