@@ -5,6 +5,7 @@ import { LanguageTestResult } from './auxiliary/LanguageTest'
 import { EducationQuality } from './Qualities/EducationExperience'
 import { WorkExperienceQuality } from './Qualities/WorkExperience'
 import { RightId } from './Prerequisites/RightPrereq'
+import { OfferQuality } from './Qualities/Offer'
 
 export type StatusSet = {
     [key in RegionId]: RightId[]
@@ -18,6 +19,7 @@ export interface Person {
     // Order matters — should generally rank by descending strength
     languageTests?: LanguageTestResult[]
     workExperiences?: WorkExperienceQuality[]
+    offers?: OfferQuality[]
 }
 
 export function getInitialStatus(origin?: RegionId): StatusSet {

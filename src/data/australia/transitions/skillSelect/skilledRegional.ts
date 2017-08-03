@@ -23,9 +23,9 @@ const skilledRegional: Transition = {
         below50,
         {
             prereqId: 'work_experience',
-            jobNature: allOf([
-                jobClass.jobGroups.sol,
-            ]),
+            jobGroups: [
+                'sol'
+            ],
         } as WorkExperiencePrereq,
     ]),
     paperwork: {

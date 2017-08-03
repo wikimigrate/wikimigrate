@@ -5,6 +5,8 @@ import AgePrereq from '../../src/definitions/Prerequisites/AgePrereq'
 import { duration } from '../../src/definitions/auxiliary/Duration'
 import { evaluate, Spec } from './evaluator'
 import { Prerequisite } from '../../src/definitions/Prerequisites'
+import { alice, bob } from './guys'
+import federalSkilledTrade from '../../src/data/canada/transitions/express/federalSkilledTrade'
 
 const simpleCanadian: Person = {
     birth: {
@@ -15,7 +17,7 @@ const simpleCanadian: Person = {
     status: getInitialStatus('canada'),
 }
 
-const specs: Spec<[Person, Prerequisite | Combination<Prerequisite>], Boolean>[] = [
+const specs: Spec<[Person, Prerequisite | Combination<Prerequisite>, boolean], Boolean>[] = [
 
     [
         "Single age prerequisite - positive",
@@ -25,6 +27,7 @@ const specs: Spec<[Person, Prerequisite | Combination<Prerequisite>], Boolean>[]
                 prereqId: 'age',
                 value: ["<", duration(100, "year")],
             } as AgePrereq,
+            true,
         ],
         true
     ],
@@ -37,6 +40,7 @@ const specs: Spec<[Person, Prerequisite | Combination<Prerequisite>], Boolean>[]
                 prereqId: 'age',
                 value: [">", duration(100, "year")],
             } as AgePrereq,
+            true,
         ],
         false
     ],
@@ -55,6 +59,7 @@ const specs: Spec<[Person, Prerequisite | Combination<Prerequisite>], Boolean>[]
                     value: [">", duration(5, "year")],
                 } as AgePrereq,
             ]),
+            true,
         ],
         true
     ],
@@ -73,9 +78,20 @@ const specs: Spec<[Person, Prerequisite | Combination<Prerequisite>], Boolean>[]
                     value: ["<", duration(5, "year")],
                 } as AgePrereq,
             ]),
+            true,
         ],
         false
     ],
+
+    [
+        "Combination test - work nature requirements",
+        [
+            alice,
+            federalSkilledTrade.prerequisiteList,
+            false,
+        ],
+        true,
+    ]
 ]
 
 evaluate(specs, satisfyPrerequisiteCombination)

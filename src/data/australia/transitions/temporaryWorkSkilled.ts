@@ -26,7 +26,7 @@ const temporaryWorkSkilled: Transition = {
         } as OfferPrereq,
         {
             prereqId: 'work_experience',
-            jobNature: identity([jobClass.jobGroups.sol]),
+            jobGroups: identity([jobClass.jobGroups.sol]),
         } as WorkExperiencePrereq,
     ]),
     paperwork: {
