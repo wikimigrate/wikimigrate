@@ -77,7 +77,6 @@ class CombinationBox extends React.PureComponent<Props, {}> {
                     <OneOfText />
                 }
                 <div style={branchStyle[combo.combinator]}>
-                    {console.info(combo)}
                     {combo.operands.map((operand, index) => (
                         <div
                             style={operandViewStyle}
