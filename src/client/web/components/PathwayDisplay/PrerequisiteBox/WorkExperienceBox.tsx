@@ -1,11 +1,22 @@
 import * as React from 'react'
-
 import CombinationBox from '../CombinationBox'
 import { WorkExperiencePrereq } from '../../../../../definitions/Prerequisites/WorkExperiencePrereq'
 import inflect from '../../../../utils/inflect'
 import { text } from '../../../../utils/text'
 import { units } from '../../../../../data/common/units'
 import { LangId } from '../../../../../definitions/auxiliary/MultiLang'
+import australiaJobClassification from '../../../../../data/australia/jobClass'
+import { JobGroup, JobGroupId } from '../../../../../definitions/auxiliary/JobClassification'
+import { oneOf } from '../../../../../definitions/auxiliary/Combination'
+
+function getJobGroup(jobGroupId: JobGroupId): JobGroup | null {
+    if (jobGroupId === 'sol') {
+        return australiaJobClassification.jobGroups['sol']
+    }
+    else {
+        return null
+    }
+}
 
 const WorkExperienceBox = (props: { prereq: WorkExperiencePrereq, lang: LangId }) => {
     const prereq = props.prereq
@@ -35,7 +46,22 @@ const WorkExperienceBox = (props: { prereq: WorkExperiencePrereq, lang: LangId }
                         })
                 }
             </div>
-            <CombinationBox combo={prereq.jobGroups as any} level={1} lang={props.lang}/>
+            {
+                prereq.jobGroups
+                ? <CombinationBox
+                      combo={oneOf(
+                          prereq.jobGroups
+                              .map(getJobGroup)
+                              .filter(x => !!x)
+                      )}
+                      level={1}
+                      lang={props.lang}
+                  />
+                : text({
+                    en: 'any industries',
+                    zh_hans: '任何行业'
+                })
+            }
         </div>
     )
 }
